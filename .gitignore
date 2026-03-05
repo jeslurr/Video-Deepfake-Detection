@@ -1,0 +1,54 @@
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.whl
+
+# ── Virtual Environment ──────────────────────────────────────────────────────
+venv/
+env/
+.venv/
+.env/
+
+# ── IDE / Editor ──────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ── Model Checkpoints (large binary files) ───────────────────────────────────
+outputs/checkpoints/*.pth
+
+# ── TensorBoard Logs ─────────────────────────────────────────────────────────
+outputs/logs/
+
+# ── Generated Output Files ───────────────────────────────────────────────────
+outputs/*.png
+
+# ── Dataset (large video files — never commit) ──────────────────────────────
+data/FaceForensics/
+data/DFDC/
+data/dataset.csv
+*.mp4
+*.avi
+*.mov
+*.mkv
+
+# ── Kaggle API Key ───────────────────────────────────────────────────────────
+kaggle.json
+
+# ── Jupyter Notebooks ────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+
+# ── Misc ──────────────────────────────────────────────────────────────────────
+*.log
+*.tmp
+*.bak
