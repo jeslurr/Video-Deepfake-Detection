@@ -423,10 +423,50 @@ def scaffold_dfdc(
     return df
 
 
+def scaffold_celebdf(
+    celebdf_root: str | Path = config.CELEBDF_ROOT,
+    output_csv:   str | Path = config.DATASET_CSV,
+) -> pd.DataFrame:
+    """
+    Walk a Celeb-DF v2 directory tree and build a unified dataset CSV.
+
+    Expected layout::
+
+        celebdf_root/
+          Celeb-real/          ← real celebrity videos (label 0)
+          Celeb-synthesis/     ← deepfake videos (label 1)
+          YouTube-real/        ← real YouTube videos (label 0)
+
+    Args:
+        celebdf_root: Root directory of the Celeb-DF v2 dataset.
+        output_csv:   Where to write the CSV.
+    """
+    celebdf_root = Path(celebdf_root)
+    rows = []
+
+    # Real videos
+    for real_dir in ["Celeb-real", "YouTube-real"]:
+        d = celebdf_root / real_dir
+        if d.exists():
+            for f in d.glob("*.mp4"):
+                rows.append({"video_path": str(f), "label": 0})
+
+    # Fake videos
+    fake_dir = celebdf_root / "Celeb-synthesis"
+    if fake_dir.exists():
+        for f in fake_dir.glob("*.mp4"):
+            rows.append({"video_path": str(f), "label": 1})
+
+    df = pd.DataFrame(rows)
+    df.to_csv(output_csv, index=False)
+    print(f"[Scaffold] Celeb-DF CSV written: {len(df)} rows → {output_csv}")
+    return df
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Quick sanity check
 # ─────────────────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
     print("VideoFrameSampler, FaceExtractor, DeepfakeDataset — imports OK.")
-    print("Run scaffold_ff_plus_plus() or scaffold_dfdc() after placing dataset files.")
+    print("Run scaffold_ff_plus_plus(), scaffold_dfdc(), or scaffold_celebdf() after placing dataset files.")

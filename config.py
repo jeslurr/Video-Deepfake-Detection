@@ -15,6 +15,7 @@ ROOT_DIR = Path(__file__).parent.resolve()
 DATA_DIR        = ROOT_DIR / "data"
 FF_ROOT         = DATA_DIR / "FaceForensics"   # root of the FF++ dataset
 DFDC_ROOT       = DATA_DIR / "DFDC"            # root of the DFDC dataset
+CELEBDF_ROOT    = DATA_DIR / "CelebDF"         # root of the Celeb-DF v2 dataset
 DATASET_CSV     = DATA_DIR / "dataset.csv"     # unified CSV (video_path, label)
 
 # ── Output / checkpoint paths ─────────────────────────────────────────────────
