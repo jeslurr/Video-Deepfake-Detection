@@ -48,7 +48,7 @@ except (ImportError, AttributeError):
 
 try:
     from facenet_pytorch import MTCNN
-    _MTCNN_AVAILABLE = True
+    _MTCNN_AVAILABLE = False  # Disabled: hangs with PyTorch 2.10+ on CPU
 except ImportError:
     _MTCNN_AVAILABLE = False
     print("[DataLoader] facenet-pytorch not found — using OpenCV Haar fallback.", file=sys.stderr)
