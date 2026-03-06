@@ -198,10 +198,17 @@ def main():
     print(f"[Train] Parameters — total: {params['total']:,}  trainable: {params['trainable']:,}")
 
     # ── Loss (class-weighted for imbalanced datasets) ─────────────────────────
-    # Count positive / negative class ratio from train split
-    all_train_labels = [int(y) for _, batch_y in train_loader for y in batch_y]
+    # Read class ratio from CSV directly (avoids loading all videos)
+    if args.smoke_test:
+        all_train_labels = [int(y) for _, batch_y in train_loader for y in batch_y]
+    else:
+        import pandas as pd
+        _df = pd.read_csv(config.DATASET_CSV)
+        n_train = int(len(_df) * config.TRAIN_RATIO)
+        all_train_labels = _df["label"].iloc[:n_train].tolist()
     n_fake  = sum(all_train_labels)
     n_real  = len(all_train_labels) - n_fake
+    print(f"[Train] Class balance — real: {n_real}  fake: {n_fake}")
     pos_weight = torch.tensor([n_real / max(n_fake, 1)], device=device)
     criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
 
