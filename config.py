@@ -62,5 +62,5 @@ BEST_MODEL_PATH = CHECKPOINT_DIR / "best_model.pth"
 INFER_THRESHOLD = 0.5    # Probability threshold → FAKE if score >= threshold
 
 # ── Misc ──────────────────────────────────────────────────────────────────────
-NUM_WORKERS = min(4, os.cpu_count() or 1)
+NUM_WORKERS = 0    # 0 avoids multiprocessing pickle issues on Windows
 PIN_MEMORY  = True
