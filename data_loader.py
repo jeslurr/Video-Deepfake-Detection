@@ -39,10 +39,12 @@ warnings.filterwarnings("ignore", category=UserWarning)
 
 try:
     import mediapipe as mp
+    # Verify mp.solutions is accessible (removed in some newer versions)
+    _ = mp.solutions.face_detection
     _MP_AVAILABLE = True
-except ImportError:
+except (ImportError, AttributeError):
     _MP_AVAILABLE = False
-    print("[DataLoader] mediapipe not found — using MTCNN only.", file=sys.stderr)
+    print("[DataLoader] mediapipe face_detection not available — using MTCNN/Haar fallback.", file=sys.stderr)
 
 try:
     from facenet_pytorch import MTCNN
