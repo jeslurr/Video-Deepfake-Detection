@@ -28,10 +28,10 @@ for _d in (DATA_DIR, OUTPUT_DIR, CHECKPOINT_DIR, LOG_DIR):
 
 # ── Frame sampling ────────────────────────────────────────────────────────────
 FRAME_STEP  = 5    # Extract every N-th frame from the video
-SEQ_LEN     = 20   # Number of consecutive face crops fed to the LSTM
+SEQ_LEN     = 12   # Number of consecutive face crops fed to the LSTM
 
 # ── Image / face crop settings ────────────────────────────────────────────────
-IMG_SIZE    = 224  # Height == Width of each face crop (pixels)
+IMG_SIZE    = 160  # Height == Width of each face crop (pixels)
 IMG_MEAN    = (0.485, 0.456, 0.406)   # ImageNet mean (RGB)
 IMG_STD     = (0.229, 0.224, 0.225)   # ImageNet std  (RGB)
 
@@ -46,7 +46,7 @@ FREEZE_BACKBONE = True   # Freeze backbone weights for the first phase of traini
 
 # ── Training hyper-parameters ─────────────────────────────────────────────────
 EPOCHS          = 30
-BATCH_SIZE      = 4      # Keep small — each sample is SEQ_LEN frames stacked
+BATCH_SIZE      = 2     # Keep small — each sample is SEQ_LEN frames stacked
 LEARNING_RATE   = 3e-4
 WEIGHT_DECAY    = 1e-4
 EARLY_STOP_PAT  = 5      # Patience (epochs) for early stopping on val-AUC

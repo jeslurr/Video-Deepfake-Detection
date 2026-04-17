@@ -219,8 +219,8 @@ def main():
         weight_decay = args.weight_decay,
     )
     scheduler = CosineAnnealingLR(optimiser, T_max=args.epochs, eta_min=1e-6)
-    scaler    = torch.cuda.amp.GradScaler(enabled=device.type == "cuda")
-
+    scaler = torch.amp.GradScaler("cuda", enabled=device.type == "cuda")
+    
     # ── Optional resume ───────────────────────────────────────────────────────
     start_epoch   = 0
     best_val_auc  = 0.0
