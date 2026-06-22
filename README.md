@@ -101,6 +101,46 @@ python inference.py --video path/to/video.mp4
 
 ---
 
+## 🌐 Web App (upload & predict)
+
+A **FastAPI** backend (`app.py`) serves the trained model, and a **React + TypeScript**
+frontend (`frontend/`) provides a forensic-style UI for uploading a video and reading
+the verdict.
+
+### 1. Start the backend (API on port 8000)
+```powershell
+.\venv\Scripts\Activate.ps1
+pip install -r requirements.txt        # installs fastapi, uvicorn, python-multipart
+python app.py                          # or: uvicorn app:app --port 8000
+```
+
+| Endpoint | Method | Purpose |
+|---|---|---|
+| `/health` | GET | Model / device status |
+| `/predict` | POST | `multipart/form-data` video upload → JSON verdict |
+| `/` | GET | Minimal built-in HTML upload page (no frontend build needed) |
+
+`POST /predict` accepts a `file` field plus optional `threshold` and `stride`, and returns:
+```json
+{ "verdict": "FAKE", "is_fake": true, "fake_probability": 0.9412,
+  "confidence": 0.9412, "faces_detected": 48, "windows_analysed": 4,
+  "per_window_min": 0.881, "per_window_max": 0.974, "filename": "clip.mp4" }
+```
+
+### 2. Start the frontend (dev server on port 5173)
+```powershell
+cd frontend
+npm install
+npm run dev            # open http://localhost:5173
+```
+The dev server proxies `/predict` and `/health` to the backend at `:8000`, so no CORS
+setup is needed during development. For a production bundle:
+```powershell
+npm run build          # outputs to frontend/dist/
+```
+
+---
+
 ## 🏗️ Architecture
 
 ```

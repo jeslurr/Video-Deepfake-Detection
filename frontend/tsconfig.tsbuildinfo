@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/api.ts","./src/format.ts","./src/main.tsx","./src/types.ts","./src/components/analyzing.tsx","./src/components/dropzone.tsx","./src/components/result.tsx","./src/components/signalmeter.tsx","./src/components/statusbadge.tsx"],"version":"5.9.3"}
