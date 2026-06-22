@@ -22,7 +22,6 @@ from typing import Generator, Optional
 
 import cv2
 import numpy as np
-import pandas as pd
 import torch
 from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms
@@ -303,6 +302,8 @@ def get_dataloaders(
     Returns:
         (train_loader, val_loader, test_loader)
     """
+    import pandas as pd
+
     df = pd.read_csv(csv_path)
 
     # Shuffle deterministically
@@ -366,6 +367,8 @@ def scaffold_ff_plus_plus(
         ff_root:    Root directory of the FF++ dataset.
         output_csv: Where to write the CSV.
     """
+    import pandas as pd
+
     ff_root = Path(ff_root)
     rows = []
 
@@ -405,6 +408,8 @@ def scaffold_dfdc(
         dfdc_root:  Root directory of the DFDC dataset.
         output_csv: Where to write the CSV.
     """
+    import pandas as pd
+
     dfdc_root = Path(dfdc_root)
     rows = []
 
@@ -443,6 +448,8 @@ def scaffold_celebdf(
         celebdf_root: Root directory of the Celeb-DF v2 dataset.
         output_csv:   Where to write the CSV.
     """
+    import pandas as pd
+
     celebdf_root = Path(celebdf_root)
     rows = []
 

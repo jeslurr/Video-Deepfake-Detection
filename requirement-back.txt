@@ -1,0 +1,36 @@
+# ============================================================================
+# requirement-back.txt — minimal dependencies to LOAD the trained model and
+# RUN the backend (app.py) only.
+#
+# This intentionally EXCLUDES everything needed only for training / evaluation
+# / dataset prep:  pandas, matplotlib, seaborn, scikit-learn, tensorboard,
+# torchaudio, kaggle, facenet-pytorch.  Those imports were made lazy in
+# utils.py / data_loader.py, so the inference path never touches them.
+#
+# Install (CPU build of PyTorch needs the PyTorch wheel index):
+#   pip install -r requirement-back.txt
+# ============================================================================
+
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+# ── Model: spatial backbone + LSTM run on these ───────────────────────────────
+torch==2.10.0+cpu
+torchvision==0.25.0+cpu
+
+# ── Web backend (FastAPI app + ASGI server + multipart upload parsing) ────────
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+python-multipart==0.0.12
+
+# ── Video decode + face detection / cropping (inference pipeline) ─────────────
+opencv-python==4.11.0.86      # cv2: VideoCapture, color convert, resize, Haar cascade
+mediapipe==0.10.32            # primary face detector (Haar fallback works without it)
+
+# ── Image preprocessing (val transform: Normalize + ToTensorV2) ───────────────
+albumentations==2.0.8
+albucore==0.0.24
+pillow==10.2.0
+
+# ── Numerics + progress bar (used by inference.py) ────────────────────────────
+numpy==1.26.4
+tqdm==4.67.3

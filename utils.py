@@ -5,16 +5,13 @@ utils.py — Shared utility functions for metrics, visualisation, and reproducib
 import random
 import numpy as np
 import torch
-import matplotlib.pyplot as plt
-import seaborn as sns
 from pathlib import Path
-from sklearn.metrics import (
-    confusion_matrix,
-    roc_curve,
-    auc,
-    classification_report,
-)
 from config import OUTPUT_DIR
+
+# NOTE: matplotlib, seaborn, and scikit-learn are imported lazily inside the
+# plotting / reporting functions below. They are only needed for training and
+# evaluation, so the backend (which only uses seed_everything / get_device) can
+# run without them installed. See requirement-back.txt.
 
 
 # ── Reproducibility ───────────────────────────────────────────────────────────
@@ -59,6 +56,10 @@ def plot_confusion_matrix(
         save_path:   Where to save the PNG. Defaults to outputs/confusion_matrix.png.
         class_names: Label names for axes. Defaults to ['Real', 'Fake'].
     """
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    from sklearn.metrics import confusion_matrix
+
     if class_names is None:
         class_names = ["Real", "Fake"]
     if save_path is None:
@@ -100,6 +101,9 @@ def plot_roc_curve(
     Returns:
         roc_auc: Area under the ROC curve.
     """
+    import matplotlib.pyplot as plt
+    from sklearn.metrics import roc_curve, auc
+
     if save_path is None:
         save_path = OUTPUT_DIR / "roc_curve.png"
 
@@ -124,6 +128,8 @@ def plot_roc_curve(
 
 def print_classification_report(y_true: list, y_pred: list) -> None:
     """Print a full precision / recall / F1 report to stdout."""
+    from sklearn.metrics import classification_report
+
     labels_present = sorted(set(int(v) for v in y_true) | set(int(v) for v in y_pred))
     all_names = ["Real", "Fake"]
     target_names = [all_names[i] for i in labels_present]
@@ -149,6 +155,8 @@ def plot_training_history(
         val_aucs:     Per-epoch validation AUC scores.
         save_path:    Output PNG path.
     """
+    import matplotlib.pyplot as plt
+
     if save_path is None:
         save_path = OUTPUT_DIR / "training_history.png"
 
